@@ -6,10 +6,11 @@ gulp.task('gsync', function(cb) {
   exec('git branch', function(err, stdout, stderr) {
     let debug = argv.d || argv.debug || false
 
-    console.log(argv)
+    let merge = (typeof argv.c === 'string' && typeof argv.m === 'boolean') ? argv.c : (typeof argv.d === 'string' && typeof argv.m === 'boolean') ? argv.d : argv.m
+    let checkout = (typeof argv.m === 'string' && typeof argv.c === 'boolean') ? argv.m : (typeof argv.d === 'string' && typeof argv.c === 'boolean') ? argv.d : argv.c
 
-    let branchToMergeWith = argv.m || argv.merge || 'master'
-    let backToBranch = argv.c || argv.checkout || 'master'
+    let branchToMergeWith = merge || argv.merge || 'master'
+    let backToBranch = checkout || argv.checkout || 'master'
     let branchesToInclude = argv.b || argv.branches || null
     let branches = (branchesToInclude) ? branchesToInclude.split(',') : stdout.replace(/[\*]/g, '').split('\n').map((v) => { return v.trim() }).filter((v) => { return (v || v === 'master') })
     let commandString = ''
@@ -27,6 +28,7 @@ gulp.task('gsync', function(cb) {
     commandString += ' && git checkout ' + backToBranch
     commandString += ' && git branch'
     if(debug) {
+
       console.log('')
       console.log('---------Debugger is running-----------')
       console.log('')
@@ -42,6 +44,8 @@ gulp.task('gsync', function(cb) {
       console.log('   checkout: ', backToBranch)
       console.log('   pull: ', argv.pull)
       console.log('   push: ', argv.push)
+      console.log('')
+      console.log('argv: ', argv)
       console.log('')
       console.log('')
       console.log('---------Debugger is running-----------')
