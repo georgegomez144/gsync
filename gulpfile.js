@@ -6,14 +6,14 @@ gulp.task('gsync', function(cb) {
   exec('git branch', function(err, stdout, stderr) {
     let branchToMergeWith = argv.m || argv.merge || 'master'
     let backToBranch = argv.c || argv.checkout || 'master'
-    let branches = (argv.branches) ? argv.branches : stdout.replace(/[\*]/g, '').split('\n').map((v) => { return v.trim() }).filter((v) => { return (v || v === 'master') })
+    let branches = (argv.branches) ? argv.branches.split(',') : stdout.replace(/[\*]/g, '').split('\n').map((v) => { return v.trim() }).filter((v) => { return (v || v === 'master') })
     let commandString = 'git checkout master '
     if(argv.pull) { commandString += ' && git pull'}
     branches.forEach((branch,i) => {
-      commandString += '&& git checkout ' + branch
+      commandString += ' && git checkout ' + branch
       if(argv.pull) { commandString += ' && git pull'}
-      commandString += '&& git merge ' + branchToMergeWith
-      if(argv.push) { commandString +=  '&& git push'}
+      commandString += ' && git merge ' + branchToMergeWith
+      if(argv.push) { commandString +=  ' && git push'}
     })
     commandString += ' && git checkout ' + backToBranch
     commandString += ' && git branch'
@@ -33,8 +33,8 @@ gulp.task('gsync', function(cb) {
     setTimeout(() => {
       exec(commandString, function(err, cmdOut) {
         console.log(cmdOut)
+        console.log('...done')
       })
     }, 1000)
-    console.log('...done')
   })
 })
