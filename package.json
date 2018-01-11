@@ -1,12 +1,12 @@
 {
   "name": "gitesting",
   "version": "1.0.0",
-  "description": "",
+  "description": "Gulp cli to sync branches of your choice and optionally push or pull at runtime",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "George Gomez",
   "license": "ISC",
   "dependencies": {
     "gulp": "^3.9.1"
