@@ -30,6 +30,7 @@ gulp.task('gsync', function(cb) {
     console.log('String to run: ', commandString)
     console.log('Final branch to checkout to: ', backToBranch)
     console.log('Running...')
+    console.log('')
     setTimeout(() => {
       exec(commandString, function(err, cmdOut) {
         console.log(cmdOut)
