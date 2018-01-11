@@ -6,10 +6,9 @@ gulp.task('gsync', function(cb) {
   exec('git branch', function(err, stdout, stderr) {
     let branchToMergeWith = argv.m || argv.merge || 'master'
     let backToBranch = argv.c || argv.checkout || 'master'
-    let branchesToInclude = argv.b || argv.branches || undefined
-    console.log(branchesToInclude)
+    let branchesToInclude = argv.b || argv.branches || null
     let branches = (branchesToInclude) ? branchesToInclude.split(',') : stdout.replace(/[\*]/g, '').split('\n').map((v) => { return v.trim() }).filter((v) => { return (v || v === 'master') })
-    let commandString = 'git checkout master '
+    let commandString = 'git checkout master'
     if(argv.pull) { commandString += ' && git pull'}
     branches.forEach((branch,i) => {
       commandString += ' && git checkout ' + branch
