@@ -1,10 +1,12 @@
 const gulp = require('gulp')
-const argv = require('yargs').argv
 const exec = require('child_process').exec
+const argv = require('yargs').argv
 
 gulp.task('gsync', function(cb) {
   exec('git branch', function(err, stdout, stderr) {
     let debug = argv.d || argv.debug || false
+
+    console.log(argv)
 
     let branchToMergeWith = argv.m || argv.merge || 'master'
     let backToBranch = argv.c || argv.checkout || 'master'
