@@ -2,7 +2,7 @@ const gulp = require('gulp')
 const argv = require('yargs').argv
 const exec = require('child_process').exec
 
-gulp.task('sync', function(cb) {
+gulp.task('gsync', function(cb) {
   exec('git branch', function(err, stdout, stderr) {
     let branchToMergeWith = argv.m || argv.merge || 'master'
     let backToBranch = argv.c || argv.checkout || 'master'
@@ -18,8 +18,6 @@ gulp.task('sync', function(cb) {
     commandString += ' && git checkout ' + backToBranch
     commandString += ' && git branch'
     if(argv.d || argv.debug) {
-      console.log('String to run: ', commandString)
-      console.log('Final branch to checkout to: ', backToBranch)
       console.log(
         'Argument flags passed: ', {
           'merge': branchToMergeWith,
@@ -29,8 +27,14 @@ gulp.task('sync', function(cb) {
         }
       )
     }
-    exec(commandString, function(err, cmdOut) {
-      console.log(cmdOut)
-    })
+    console.log('String to run: ', commandString)
+    console.log('Final branch to checkout to: ', backToBranch)
+    console.log('Running...')
+    setTimeout(() => {
+      exec(commandString, function(err, cmdOut) {
+        console.log(cmdOut)
+      })
+    }, 1000)
+    console.log('...done')
   })
 })
